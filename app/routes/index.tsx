@@ -70,7 +70,9 @@ const Month = ({ n }: { n: number }) => {
 
   return (
     <div>
-      <div className="relative mb-16 block text-6xl">May</div>
+      <div className="relative m-4 mb-8 block text-6xl md:m-4 md:mb-16">
+        May
+      </div>
       <div className="grid grid-cols-1 justify-items-stretch md:grid-cols-7">
         {entries.map((entry: string, n: number) => (
           <button
@@ -99,7 +101,7 @@ const Month = ({ n }: { n: number }) => {
 
 export default function Index() {
   return (
-    <main className="relative min-h-screen bg-zinc-800 p-16 font-sans text-white">
+    <main className="relative min-h-screen bg-zinc-800 p-4 font-sans text-white md:p-16">
       <Month n={31} />
     </main>
   );
