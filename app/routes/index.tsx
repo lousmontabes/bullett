@@ -49,7 +49,7 @@ const Modal = ({
 
 const Month = ({ n }: { n: number }) => {
   const [editingEntry, setEditingEntry] = useState<number | null>(null);
-  const [entries, setEntries] = useState(new Array(n).fill(""));
+  const [entries, setEntries] = useState([]);
 
   const onChangeEntry = (newEntry: string) => {
     const newEntries = [...entries];
@@ -63,8 +63,9 @@ const Month = ({ n }: { n: number }) => {
   const closeModal = () => setEditingEntry(null);
 
   useEffect(() => {
+    const emptyArray = new Array(n).fill("");
     const storedEntries = localStorage.getItem("entries");
-    setEntries(JSON.parse(storedEntries));
+    setEntries(JSON.parse(storedEntries) || emptyArray);
   }, []);
 
   return (
