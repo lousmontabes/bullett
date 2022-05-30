@@ -135,8 +135,8 @@ export default function Index() {
   return (
     <>
       <div
-        className={`flex items-center gap-4 p-4 ${
-          showSettingsBar ? "bg-white" : "text-white"
+        className={`flex items-center gap-4 p-4 ${theme.background} ${
+          showSettingsBar ? "bg-white" : `text-${theme.text}`
         }`}
       >
         <div
