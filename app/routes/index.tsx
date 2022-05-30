@@ -34,7 +34,9 @@ const Modal = ({
       >
         <div className="flex justify-between">
           <span>May {day + 1}</span>
-          <span onClick={onClose}>✕</span>
+          <span className="cursor-pointer" onClick={onClose}>
+            ✕
+          </span>
         </div>
         <textarea
           type="text"
@@ -43,7 +45,6 @@ const Modal = ({
           placeholder="You haven't logged this day yet. Write something down! ✍️"
           onChange={(e) => onChange(e.target.value)}
           onKeyPress={handleKeyPress}
-          autoFocus
           spellCheck={false}
         ></textarea>
       </div>
