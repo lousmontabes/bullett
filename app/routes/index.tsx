@@ -112,11 +112,20 @@ const Month = ({ n, theme }: { n: number; theme: Object }) => {
 export default function Index() {
   const THEME_ZINC = {
     background: "bg-zinc-800",
-    text: "white",
+    text: "text-white",
   };
-  const THEME_SLATE = { background: "bg-slate-800", text: "white" };
-  const THEME_VIOLET = { background: "bg-violet-100", text: "zinc-800" };
-  const THEME_EMERALD = { background: "bg-emerald-100", text: "zinc-800" };
+  const THEME_SLATE = { background: "bg-slate-800", text: "text-white" };
+  const THEME_VIOLET = { background: "bg-violet-100", text: "text-zinc-800" };
+  const THEME_EMERALD = { background: "bg-emerald-100", text: "text-zinc-800" };
+  const THEME_SKY = { background: "bg-sky-100", text: "text-zinc-800" };
+
+  const themes = [
+    THEME_ZINC,
+    THEME_SLATE,
+    THEME_VIOLET,
+    THEME_EMERALD,
+    THEME_SKY,
+  ];
 
   const [showSettingsBar, setShowSettingsBar] = useState(false);
   const [theme, setTheme] = useState(THEME_ZINC);
@@ -135,8 +144,8 @@ export default function Index() {
   return (
     <>
       <div
-        className={`flex items-center gap-4 p-4 ${theme.background} ${
-          showSettingsBar ? "bg-white" : `text-${theme.text}`
+        className={`top-0 left-0 z-50 flex w-full items-center gap-4 p-8 py-4 ${
+          showSettingsBar ? "bg-white" : `${theme.text} ${theme.background}`
         }`}
       >
         <div
@@ -145,29 +154,17 @@ export default function Index() {
         >
           {showSettingsBar ? "✕" : "☰"}
         </div>
-        {showSettingsBar && (
-          <>
-            <div
-              className="h-8 w-8 cursor-pointer rounded-full bg-zinc-800"
-              onClick={() => changeTheme(THEME_ZINC)}
-            ></div>
-            <div
-              className="h-8 w-8 cursor-pointer rounded-full bg-slate-800"
-              onClick={() => changeTheme(THEME_SLATE)}
-            ></div>
-            <div
-              className="h-8 w-8 cursor-pointer rounded-full bg-violet-300"
-              onClick={() => changeTheme(THEME_VIOLET)}
-            ></div>
-            <div
-              className="h-8 w-8 cursor-pointer rounded-full bg-emerald-300"
-              onClick={() => changeTheme(THEME_EMERALD)}
-            ></div>
-          </>
-        )}
+        {showSettingsBar &&
+          themes.map((theme, i) => (
+            <button
+              key={`theme-${i}`}
+              className={`h-8 w-8 cursor-pointer rounded-full ${theme.background}`}
+              onClick={() => changeTheme(theme)}
+            ></button>
+          ))}
       </div>
       <main
-        className={`relative min-h-screen ${theme.background} p-4 pt-1 font-sans text-${theme.text} md:p-16 md:pt-4`}
+        className={`relative min-h-screen ${theme.background} p-4 py-1 font-sans ${theme.text} md:p-5 md:py-1`}
       >
         <Month n={31} theme={theme} />
       </main>
