@@ -29,14 +29,18 @@ const Modal = ({
       onClick={onClose}
     >
       <div
-        className="flex h-80 w-80 flex-col justify-items-stretch border-2 bg-zinc-800 p-4 "
+        className="flex h-full w-full flex-col justify-items-stretch border-2 bg-zinc-800 p-4 md:h-80 md:w-80"
         onClick={(e) => e.stopPropagation()}
       >
-        {day + 1}
+        <div className="flex justify-between">
+          <span>May {day + 1}</span>
+          <span onClick={onClose}>✕</span>
+        </div>
         <textarea
           type="text"
           className="my-4 flex w-full flex-1 resize-none bg-transparent font-serif"
           defaultValue={entry}
+          placeholder="You haven't logged this day yet. Write something down! ✍️"
           onChange={(e) => onChange(e.target.value)}
           onKeyPress={handleKeyPress}
           autoFocus
