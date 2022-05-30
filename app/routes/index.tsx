@@ -8,12 +8,14 @@ const Modal = ({
   entry,
   onClose,
   onChange,
+  theme,
 }: {
   open: boolean;
   day: number;
   entry: string;
   onClose: Function;
   onChange: Function;
+  theme: Object;
 }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -29,7 +31,7 @@ const Modal = ({
       onClick={onClose}
     >
       <div
-        className="flex h-full w-full flex-col justify-items-stretch border-2 bg-zinc-800 p-4 md:h-80 md:w-80"
+        className={`flex h-full w-full flex-col justify-items-stretch border-2 ${theme.background} p-4 md:h-80 md:w-80 border-${theme.text}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between">
@@ -40,7 +42,7 @@ const Modal = ({
         </div>
         <textarea
           type="text"
-          className="my-4 flex w-full flex-1 resize-none bg-transparent font-serif"
+          className={`my-4 flex w-full flex-1 resize-none bg-transparent font-serif placeholder:text-${theme.text}`}
           defaultValue={entry}
           placeholder="You haven't logged this day yet. Write something down! ✍️"
           onChange={(e) => onChange(e.target.value)}
@@ -52,7 +54,7 @@ const Modal = ({
   );
 };
 
-const Month = ({ n }: { n: number }) => {
+const Month = ({ n, theme }: { n: number; theme: Object }) => {
   const [editingEntry, setEditingEntry] = useState<number | null>(null);
   const [entries, setEntries] = useState([]);
 
@@ -82,12 +84,14 @@ const Month = ({ n }: { n: number }) => {
         {entries.map((entry: string, n: number) => (
           <button
             key={n}
-            className="relative box-border inline-flex h-36 cursor-pointer flex-col items-start overflow-hidden border-2 border-transparent p-4 text-left font-serif hover:border-white"
+            className={`relative box-border inline-flex h-36 cursor-pointer flex-col items-start overflow-hidden border-2 border-transparent p-4 text-left font-serif hover:border-${theme.text}`}
             onClick={() => onClickDay(n)}
           >
             <div className="mb-2 font-sans">{n + 1}</div>
-            <div className="text-zinc-300">{entry}</div>
-            <div className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-zinc-800"></div>
+            <div className="opacity-75">{entry}</div>
+            <div
+              className={`absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-${theme.background}`}
+            ></div>
           </button>
         ))}
       </div>
@@ -98,6 +102,7 @@ const Month = ({ n }: { n: number }) => {
           entry={entries[editingEntry]}
           onClose={closeModal}
           onChange={onChangeEntry}
+          theme={theme}
         />
       )}
     </div>
@@ -105,9 +110,56 @@ const Month = ({ n }: { n: number }) => {
 };
 
 export default function Index() {
+  const THEME_ZINC = {
+    background: "bg-zinc-800",
+    text: "white",
+  };
+  const THEME_SLATE = { background: "bg-slate-800", text: "white" };
+  const THEME_VIOLET = { background: "bg-violet-100", text: "black" };
+  const THEME_EMERALD = { background: "bg-emerald-100", text: "black" };
+
+  const [showSettingsBar, setShowSettingsBar] = useState(false);
+  const [theme, setTheme] = useState(THEME_EMERALD);
+
   return (
-    <main className="relative min-h-screen bg-zinc-800 p-4 font-sans text-white md:p-16">
-      <Month n={31} />
-    </main>
+    <>
+      <div
+        className={`flex items-center gap-4 p-4 ${
+          showSettingsBar ? "bg-white" : "text-white"
+        }`}
+      >
+        <div
+          className="cursor-pointer text-2xl"
+          onClick={() => setShowSettingsBar(!showSettingsBar)}
+        >
+          {showSettingsBar ? "✕" : "☰"}
+        </div>
+        {showSettingsBar && (
+          <>
+            <div
+              className="h-8 w-8 cursor-pointer rounded-full bg-zinc-800"
+              onClick={() => setTheme(THEME_ZINC)}
+            ></div>
+            <div
+              className="h-8 w-8 cursor-pointer rounded-full bg-slate-800"
+              onClick={() => setTheme(THEME_SLATE)}
+            ></div>
+            <div
+              className="h-8 w-8 cursor-pointer rounded-full bg-violet-300"
+              onClick={() => setTheme(THEME_VIOLET)}
+            ></div>
+            <div
+              className="h-8 w-8 cursor-pointer rounded-full bg-emerald-300"
+              onClick={() => setTheme(THEME_EMERALD)}
+            ></div>
+          </>
+        )}
+      </div>
+      <main
+        className={`relative min-h-screen ${theme.background} p-4 font-sans text-${theme.text} md:p-16`}
+      >
+        <Month n={31} theme={theme} />
+      </main>
+    </>
   );
 }
