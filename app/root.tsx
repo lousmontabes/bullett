@@ -44,7 +44,7 @@ export default function App() {
         <Links />
         <style>
           @import
-          url('https://fonts.googleapis.com/css2?family=Alata&family=Cormorant+Garamond:wght@300&display=swap');
+          url('https://fonts.googleapis.com/css2?family=Alata&family=Fuzzy+Bubbles&display=swap');
         </style>
       </head>
       <body className="h-full bg-zinc-800">

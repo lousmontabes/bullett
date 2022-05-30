@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["Alata", "system-ui"],
-      serif: ["Cormorant-Garamond", "Georgia"],
+      serif: ["Fuzzy Bubbles", "Georgia"],
     },
   },
   plugins: [],
