@@ -115,11 +115,22 @@ export default function Index() {
     text: "white",
   };
   const THEME_SLATE = { background: "bg-slate-800", text: "white" };
-  const THEME_VIOLET = { background: "bg-violet-100", text: "black" };
-  const THEME_EMERALD = { background: "bg-emerald-100", text: "black" };
+  const THEME_VIOLET = { background: "bg-violet-100", text: "zinc-800" };
+  const THEME_EMERALD = { background: "bg-emerald-100", text: "zinc-800" };
 
   const [showSettingsBar, setShowSettingsBar] = useState(false);
-  const [theme, setTheme] = useState(THEME_EMERALD);
+  const [theme, setTheme] = useState(THEME_ZINC);
+
+  const changeTheme = (theme) => {
+    localStorage.setItem("theme", JSON.stringify(theme));
+    setTheme(theme);
+  };
+
+  useEffect(() => {
+    const defaultTheme = THEME_ZINC;
+    const storedTheme = localStorage.getItem("theme");
+    setTheme(JSON.parse(storedTheme) || defaultTheme);
+  }, []);
 
   return (
     <>
@@ -138,25 +149,25 @@ export default function Index() {
           <>
             <div
               className="h-8 w-8 cursor-pointer rounded-full bg-zinc-800"
-              onClick={() => setTheme(THEME_ZINC)}
+              onClick={() => changeTheme(THEME_ZINC)}
             ></div>
             <div
               className="h-8 w-8 cursor-pointer rounded-full bg-slate-800"
-              onClick={() => setTheme(THEME_SLATE)}
+              onClick={() => changeTheme(THEME_SLATE)}
             ></div>
             <div
               className="h-8 w-8 cursor-pointer rounded-full bg-violet-300"
-              onClick={() => setTheme(THEME_VIOLET)}
+              onClick={() => changeTheme(THEME_VIOLET)}
             ></div>
             <div
               className="h-8 w-8 cursor-pointer rounded-full bg-emerald-300"
-              onClick={() => setTheme(THEME_EMERALD)}
+              onClick={() => changeTheme(THEME_EMERALD)}
             ></div>
           </>
         )}
       </div>
       <main
-        className={`relative min-h-screen ${theme.background} p-4 font-sans text-${theme.text} md:p-16`}
+        className={`relative min-h-screen ${theme.background} p-4 pt-1 font-sans text-${theme.text} md:p-16 md:pt-4`}
       >
         <Month n={31} theme={theme} />
       </main>
